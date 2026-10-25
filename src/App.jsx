@@ -78,7 +78,7 @@ function App() {
                 id="age"
                 name="age"
                 type="number"
-                placeholder="e.g. 15"
+                placeholder="e.g. 14"
                 min="1"
                 value={form.age}
                 onChange={handleChange}
@@ -89,19 +89,19 @@ function App() {
             <div className="form-field">
               <label htmlFor="grade">Grade</label>
               <select
-                id="grade"
-                name="grade"
-                value={form.grade}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select grade</option>
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    Grade {i + 1}
-                  </option>
-                ))}
-              </select>
+  id="grade"
+  name="grade"
+  value={form.grade}
+  onChange={handleChange}
+  required
+>
+  <option value="">Select grade</option>
+  {Array.from({ length: 12 }, (_, i) => (
+    <option key={i + 1} value={i + 1}>
+      Class {i + 1}
+    </option>
+  ))}
+</select>
             </div>
           </div>
 
@@ -141,7 +141,7 @@ function App() {
                     <tr key={student.id}>
                       <td>{student.name}</td>
                       <td>{student.age}</td>
-                      <td>{student.grade}</td>
+                      <td>Class {student.grade}</td>
                       <td>
                         <button
                           type="button"

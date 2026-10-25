@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
@@ -11,9 +11,8 @@ function App() {
 
   const [students, setStudents] = useState([]);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
       [name]: value,
@@ -21,39 +20,26 @@ function App() {
   };
 
   const clearForm = () => {
-    setForm({
-      name: "",
-      age: "",
-      grade: "",
-    });
+    setForm({ name: "", age: "", grade: "" });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const addStudent = (e) => {
+    e.preventDefault();
 
-    const name = form.name.trim();
-    const age = Number(form.age);
-
-    if (
-      !name ||
-      !form.age ||
-      !Number.isInteger(age) ||
-      age <= 0 ||
-      !form.grade
-    ) {
+    if (!form.name.trim() || !form.age || !form.grade) {
       return;
     }
 
-    const student = {
-      id: crypto.randomUUID
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random()}`,
-      name,
-      age,
-      grade: form.grade,
-    };
+    setStudents((prev) => [
+      ...prev,
+      {
+        id: Date.now() + Math.random(),
+        name: form.name.trim(),
+        age: form.age,
+        grade: form.grade,
+      },
+    ]);
 
-    setStudents((prev) => [...prev, student]);
     clearForm();
   };
 
@@ -68,10 +54,10 @@ function App() {
       <section className="student-card">
         <header className="header">
           <h1>Student Entry Form</h1>
-          <p>Add students and manage the list.</p>
+          <p>Add students and review the list below.</p>
         </header>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={addStudent}>
           <div className="form-grid">
             <div className="form-field">
               <label htmlFor="name">Name</label>
@@ -79,7 +65,7 @@ function App() {
                 id="name"
                 name="name"
                 type="text"
-                placeholder="e.g. Alex Smith"
+                placeholder="e.g. MS Dhoni"
                 value={form.name}
                 onChange={handleChange}
                 required
@@ -94,7 +80,6 @@ function App() {
                 type="number"
                 placeholder="e.g. 15"
                 min="1"
-                step="1"
                 value={form.age}
                 onChange={handleChange}
                 required
@@ -111,22 +96,18 @@ function App() {
                 required
               >
                 <option value="">Select grade</option>
-                {Array.from({ length: 12 }, (_, index) => {
-                  const grade = index + 1;
-
-                  return (
-                    <option key={grade} value={grade}>
-                      Grade {grade}
-                    </option>
-                  );
-                })}
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    Grade {i + 1}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
 
           <div className="button-group">
             <button type="submit" className="add-button">
-              Add student
+              Add Student
             </button>
 
             <button
@@ -155,7 +136,6 @@ function App() {
                     <th>Actions</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {students.map((student) => (
                     <tr key={student.id}>
